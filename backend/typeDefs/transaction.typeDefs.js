@@ -22,7 +22,6 @@ const transactionTypeDefs = `#graphql
     }
 
     input CreateTransactionInput {
-        userId: ID!
         description: String!
         paymentType: String!
         category: String!
