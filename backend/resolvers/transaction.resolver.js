@@ -1,4 +1,4 @@
-import { Transaction } from '../models/transaction.model.js';
+import Transaction  from '../models/transaction.model.js';
 
 // Resolvers for the Transaction type
 const transactionResolvers = {

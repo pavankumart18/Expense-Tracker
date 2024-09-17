@@ -1,6 +1,8 @@
 import { sign } from "crypto";
 import { users } from "../dummyData/data.js";
-import { User } from "../models/user.model.js";
+import User from "../models/user.model.js";
+import bcryptjs from "bcryptjs";
+
 
 
 // Resolvers for the User type
@@ -9,6 +11,7 @@ const userResolvers = {
         signUp: async (_,{input},context) =>{
             try{
                 const {username,name,password,gender} = input;
+                console.log(input);
                 if (!username || !name || !password || !gender){
                     throw new Error("Please fill in all fields");
                 } 
@@ -35,6 +38,7 @@ const userResolvers = {
                 await context.login(user);
                 return user;
             }catch(err){
+                console.log(err);
                 console.log("Error in signUp resolver");
                 throw new Error(err.message || "Internal server error");
             }
@@ -56,14 +60,13 @@ const userResolvers = {
         logout: async (_,__,context) =>{
             try{
                 await context.logout();
-                res.session.destroy((err)=>{
+                context.req.session.destroy((err)=>{
                     if(err){
                         console.log("Error in destroying session");
                         throw new Error(err.message || "Internal server error");
                     }
                 });
-
-                res.clearCookie("connect.sid");
+                context.res.clearCookie("connect.sid");
                 return {message: "Logged out successfully"}; 
             }catch(err){
                 console.log("Error in logout resolver");
