@@ -9,7 +9,7 @@ import { formatDate } from "../utils/formDate";
 import { useMutation } from "@apollo/client";
 import { DELETE_TRANSACTION } from "../graphql/mutations/transaction.mutation";
 import toast from "react-hot-toast";
-import { GET_TRANSACTIONS } from "../graphql/queries/transaction.query";
+import { GET_TRANSACTION_STATISTICS, GET_TRANSACTIONS } from "../graphql/queries/transaction.query";
 
 const categoryColorMap = {
 	saving: "from-green-700 to-green-400",
@@ -31,7 +31,7 @@ const Card = ({ transaction }) => {
 	const cardClass = categoryColorMap[category];
 
 	const [deleteTransaction,{loading}]=useMutation(DELETE_TRANSACTION,{
-		refetchQueries:[GET_TRANSACTIONS]
+		refetchQueries:[GET_TRANSACTIONS,GET_TRANSACTION_STATISTICS]
 	})
 
 	description = description[0]?.toUpperCase() + description.slice(1)

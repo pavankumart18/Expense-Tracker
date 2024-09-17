@@ -2,6 +2,7 @@ import { sign } from "crypto";
 import { users } from "../dummyData/data.js";
 import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
+import Transaction from "../models/transaction.model.js";
 
 
 
@@ -105,6 +106,18 @@ const userResolvers = {
 
 
     },
+    User:{
+        transactions : async (parent) =>{
+            try {
+                return await Transaction.find({userId: parent._id});
+                
+            } catch (error) {
+                console.log("Error in transactions resolver");
+                throw new Error(err.message || "Internal server error");
+                
+            }
+        }
+    }
 }
 
 export default userResolvers;
